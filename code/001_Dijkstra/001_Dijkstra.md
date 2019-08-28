@@ -23,45 +23,32 @@
 
 ## 伪代码
 ``` js
-// graph node defination
-class Node {
-    List<NodeDistPair> neightbors;
-    int cost;
-}
+// visited: a set already get shortest cost
+// toStart: a heap contains [node, cost] pairs with ordered distance,
+// cost is distance from start node to current node, initialy only has [startNode, 0]
 
-// node and its distance to neighbor node
-class NodeDistPair {
-    Node node;
-    int dist;
-}
+// initially, start from the starNode, and its cost is 0
+toStart.add([startNode, 0]);
 
-Dijkstra(List<Node> graph, Node start, Node end) {
-    for node in graph{
-        node.cost = infinite; // initilized cost as infinite
+for node_cost_pair in toStart:
+    if visited contains(node) {
+        continue;
     }
-    start.cost = 0; // initilize start node's cost to 0
-
-    List<Node> toVisit;
-    List<Node> visited;
-
-    toVisit.add(start);
-    for node in toVisit{
-        for n in node.neighbors{
-            if(node.cost + n.dist < n.cost) {
-                n.cost = node.cost + n.dist;
-                toVisit.add(n);
-            }
+    visited.add(node); // 
+    for neighborNode in node.neighbors {
+        if not visited neighborNode {
+            toStart.add([neighborNode, cost+neighborNode.dist])
         }
-        toVisit.remove(node);
-        visited.add(node);
     }
-
-    return visited.contains(end)? end.cost: infinite;
 }
+
+// after the loop, vivisted contains all nodes that are reachable from the given start node 
+//and corresponding shorted distance (from start node)
+
 ```
 
 ## 演示
-![alt text](https://raw.githubusercontent.com/jellylidong/CodeEatSleep/master/code/pics/Dijkstra_Animation.gif)
+![alt text](https://raw.githubusercontent.com/jellylidong/CodeEatSleep/master/code/001_Dijkstra/Dijkstra_Animation.gif)
 
 
 
